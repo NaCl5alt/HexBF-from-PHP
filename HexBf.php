@@ -1,23 +1,37 @@
 <?php
-function judge($source,$p,$tmp,$output){
-	for($i=0;$i<strlen($source);$i++){
-		$val=$source[$i];
-		/*
-		print($source[$i].":".$tmp);
-		print("<br>");
-		*/
+function judge($source){
+	$tmp=0;
+	$p=0;
+	$n=array(0,0);
+	$li=array(0,0,0,0,0,0,0,0,0);
+	$flag=0;
+	$output="";
+	for($count=0;$count<strlen($source);$count++){
+		$val=$source[$count];
+		if($val=='['){
+				$li[$flag]=$count;
+				$flag++;
+				if($flag==9){
+					echo '<h1 style="color:red;">overflow</h1><br>';
+					break;
+				}
+				//goto debug;
+				continue;
+		}
 		switch ($val) {
-			case ".":
-				if($output=="") $output = chr($tmp);
-				else $output=$output.chr($tmp);
-				break;
 			case "+":
-				if($p==0) $tmp++;
-				else $tmp=$tmp+16*$p;
+				$n[$p]++;
+				if($n[$p]>15){
+					$n[$p]=0;
+					if(!$p)$n[1]++;
+				}
 				break;
 			case "-":
-				if($p==0) $tmp--;
-				else $tmp=$tmp-16*$p;
+				$n[$p]--;
+				if($n[$p]<0){
+					$n[$p]=15;
+					if(!$p)$n[1]--;
+				}
 				break;
 			case "<":
 				if($p)$p=0;
@@ -27,57 +41,35 @@ function judge($source,$p,$tmp,$output){
 				if(!$p)$p=1;
 				else $p=0;
 				break;
-			case "[":
-				$i_t=$i+1;
-				while($val!="]"||$tmp!=0){
-					if($val=="]") $i=$i_t;
-					else $i++;
-					$val=$source[$i];
-					/*
-					print($source[$i].":".$tmp);
-					print("<br>");
-					*/
-					switch ($val) {
-						case ".":
-							if($output=="") $output = chr($tmp);
-							else $output=$output.chr($tmp);
-							break;
-						case "+":
-							if($p==0) $tmp++;
-							else $tmp=$tmp+16*$p;
-							break;
-						case "-":
-							if($p==0) $tmp--;
-							else $tmp=$tmp-16*$p;
-							break;
-						case "<":
-							if($p)$p=0;
-							else $p=1;
-							break;
-						case ">":
-							if(!$p)$p=1;
-							else $p=0;
-							break;
-						default:
-							if($output=="") $output = $val;
-							else $output=$output.$val;
-							break;
-					}
-				}
+			case ".":
+				$tmp=$n[1]*16+$n[0];
+				if($output=="") $output = chr($tmp);
+				else $output=$output.chr($tmp);
+				break;
+			case "]":
+				if($n[$p])$count=$li[$flag-1];
+				else if($flag>0)$flag--;
 				break;
 			default:
 				if($output=="") $output = $val;
 				else $output=$output.$val;
 				break;
 		}
+		/*
+		debug:
+		echo "count：".$count."<br>val：".$val."<br>p：".$p."<br>";
+		echo "n：";
+		print_r($n);
+		echo "<br>flag：".$flag."<br>li：";
+		print_r($li);
+		echo "<br>tmp：".$tmp."<br>output：".$output."<br>";
+		echo "-----------------------------------------------<br>";
+		*/
 	}
 	return $output;
 }
 $source=$_POST["source"];
-$p=0;
-$tmp=0;
-$output="";
-$output=judge($source,$p,$tmp,$output);
+$output=judge($source);
 ?>
 <!DOCTYPE html>
 <html>
