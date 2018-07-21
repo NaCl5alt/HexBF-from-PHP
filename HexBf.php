@@ -51,8 +51,6 @@ function judge($source){
 				else if($flag>0)$flag--;
 				break;
 			default:
-				if($output=="") $output = $val;
-				else $output=$output.$val;
 				break;
 		}
 		/*
