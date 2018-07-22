@@ -55,19 +55,18 @@ function judge($source){
 		}
 		/*
 		debug:
-		echo "countï¼š".$count."<br>valï¼š".$val."<br>pï¼š".$p."<br>";
-		echo "nï¼š";
+		echo "countF".$count."<br>valF".$val."<br>pF".$p."<br>";
+		echo "nF";
 		print_r($n);
-		echo "<br>flagï¼š".$flag."<br>liï¼š";
+		echo "<br>flagF".$flag."<br>liF";
 		print_r($li);
-		echo "<br>tmpï¼š".$tmp."<br>outputï¼š".$output."<br>";
+		echo "<br>tmpF".$tmp."<br>outputF".$output."<br>";
 		echo "-----------------------------------------------<br>";
 		*/
 	}
 	return $output;
 }
-$source=$_POST["source"];
-$output=judge($source);
+$output=judge($_POST["source"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,7 +80,7 @@ $output=judge($source);
 <?php print("$output")?>
 </textarea>
 <form method="post" action="index.html">
-<input type="submit" value="æˆ»ã‚‹">
+<input type="submit" value="–ß‚é">
 </form>
 </body>
 </html>
