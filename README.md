@@ -1,4 +1,4 @@
-# HexBf from Bf
+# HexBF from php
 Brainf*ckを元に作った自作言語をPHPで作成したものです。
 ## 仕組み
 * アドレスは二つのみ。
